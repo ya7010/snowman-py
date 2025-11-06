@@ -98,14 +98,14 @@ class UpdateSetQueryBuilder(
         self,
         condition: Callable[[WhereContext[GenericColumnAccessor]], Condition],
         /,
-    ) -> "UpdateSetWhereQueryBuidler": ...
+    ) -> "UpdateSetWhereQueryBuidler[GenericTable, GenericColumnAccessor, GenericOrderItemAccessor, GenericInsertColumnTypedDict, GenericUpdateColumnTypedDict]": ...
 
     @overload
     def where(
         self,
         condition: Condition,
         /,
-    ) -> "UpdateSetWhereQueryBuidler": ...
+    ) -> "UpdateSetWhereQueryBuidler[GenericTable, GenericColumnAccessor, GenericOrderItemAccessor, GenericInsertColumnTypedDict, GenericUpdateColumnTypedDict]": ...
 
     @overload
     def where(
@@ -113,7 +113,7 @@ class UpdateSetQueryBuilder(
         condition: str,
         params: Sequence[Any] | None = None,
         /,
-    ) -> "UpdateSetWhereQueryBuidler": ...
+    ) -> "UpdateSetWhereQueryBuidler[GenericTable, GenericColumnAccessor, GenericOrderItemAccessor, GenericInsertColumnTypedDict, GenericUpdateColumnTypedDict]": ...
 
     def where(
         self,
@@ -122,7 +122,7 @@ class UpdateSetQueryBuilder(
         | str,
         params: Sequence[Any] | None = None,
         /,
-    ) -> "UpdateSetWhereQueryBuidler":
+    ) -> "UpdateSetWhereQueryBuidler[GenericTable, GenericColumnAccessor, GenericOrderItemAccessor, GenericInsertColumnTypedDict, GenericUpdateColumnTypedDict]":
         """
         Specify the condition of the where clause.
 
@@ -168,7 +168,14 @@ class UpdateSetWhereQueryBuidler(
                 GenericUpdateColumnTypedDict,
             ]
         ],
-        columns: GenericTable | GenericUpdateColumnTypedDict,
+        columns: Table[
+            GenericTable,
+            GenericColumnAccessor,
+            GenericOrderItemAccessor,
+            GenericInsertColumnTypedDict,
+            GenericUpdateColumnTypedDict,
+        ]
+        | GenericUpdateColumnTypedDict,
         *,
         where_condition: str,
         where_params: Sequence[Any],
