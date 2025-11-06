@@ -1948,7 +1948,7 @@ dependencies = [
 
 [[package]]
 name = "snowman"
-version = "0.0.32"
+version = "0.0.33"
 dependencies = [
  "anyhow",
  "askama",
@@ -1971,7 +1971,7 @@ dependencies = [
 
 [[package]]
 name = "snowman_config"
-version = "0.0.32"
+version = "0.0.33"
 dependencies = [
  "indexmap",
  "log",
@@ -1984,7 +1984,7 @@ dependencies = [
 
 [[package]]
 name = "snowman_connector"
-version = "0.0.32"
+version = "0.0.33"
 dependencies = [
  "log",
  "openssl",
@@ -1995,7 +1995,7 @@ dependencies = [
 
 [[package]]
 name = "snowman_generator"
-version = "0.0.32"
+version = "0.0.33"
 dependencies = [
  "convert_case",
  "itertools",
