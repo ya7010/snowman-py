@@ -82,6 +82,7 @@ impl Default for ConnectionConfig {
             account: account_default(),
             user: user_default(),
             password: password_default(),
+            private_key: private_key_default(),
             private_key_path: private_key_path_default(),
             private_key_passphrase: private_key_passphrase_default(),
             role: role_default(),
