@@ -28,7 +28,7 @@ schemars = { version = "0.8.21", features = ["indexmap2"] }
 serde = { version = "^1.0", features = ["derive"] }
 serde_json = { version = "^1.0", features = ["preserve_order"] }
 similar = { version = "2.5.0", features = ["inline"] }
-snowflake-connector-rs = "^0.5.0"
+snowflake-connector-rs = "^0.7.1"
 snowman_config = { path = "rust/snowman_config" }
 snowman_connector = { path = "rust/snowman_connector" }
 snowman_generator = { path = "rust/snowman_generator" }
