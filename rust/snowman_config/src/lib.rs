@@ -44,6 +44,10 @@ pub struct ConnectionConfig {
     #[serde(default = "password_default")]
     pub password: StringOrEnv,
 
+    /// # The Snowflake private key.
+    #[serde(default = "private_key_default")]
+    pub private_key: StringOrEnv,
+
     /// # The Snowflake private key path.
     #[serde(default = "private_key_path_default")]
     pub private_key_path: StringOrEnv,
@@ -291,6 +295,10 @@ fn user_default() -> StringOrEnv {
 
 fn password_default() -> StringOrEnv {
     new_env("SNOWFLAKE_PASSWORD")
+}
+
+fn private_key_default() -> StringOrEnv {
+    new_env("SNOWFLAKE_PRIVATE_KEY")
 }
 
 fn private_key_path_default() -> StringOrEnv {
