@@ -1,24 +1,38 @@
 [workspace]
-members = ["rust/*"]
 resolver = "2"
+members = ["rust/*"]
 
 [workspace.package]
 version = "0.0.32"
+# tombi: lint.rules.deprecated.disabled = true
+authors = ["ya7010 <ya7010@outlook.com>"]
 edition = "2021"
-authors = ["yassun7010 <yassun7010@outlook.com>"]
 license = "MIT"
 
 [workspace.dependencies]
+anyhow = { version = "1.0.86", features = ["backtrace"] }
+askama = "0.12.1"
+clap = { version = "4.5.4", features = ["derive"] }
+clap_complete = "4.5.2"
+clap_complete_nushell = "4.5.1"
+console = "0.15.8"
+convert_case = "0.6.0"
+dotenvy = "0.15.7"
+futures = "0.3.30"
+indexmap = { version = "2.2.6", features = ["serde"] }
+itertools = "0.13.0"
+log = "^0.4"
+openssl = { version = "^0.10", features = ["vendored"] }
+pretty_assertions = "1.4.0"
+schemars = { version = "0.8.21", features = ["indexmap2"] }
+serde = { version = "^1.0", features = ["derive"] }
+serde_json = { version = "^1.0", features = ["preserve_order"] }
+similar = { version = "2.5.0", features = ["inline"] }
+snowflake-connector-rs = "^0.5.0"
 snowman_config = { path = "rust/snowman_config" }
 snowman_connector = { path = "rust/snowman_connector" }
 snowman_generator = { path = "rust/snowman_generator" }
-
-convert_case = "0.6.0"
-log = "^0.4"
-openssl = { version = "^0.10", features = ["vendored"] }
-serde = { version = "^1.0", features = ["derive"] }
-serde_json = { version = "^1.0", features = ["preserve_order"] }
+tempfile = "3.10.1"
 thiserror = "^1.0"
 tokio = { version = "^1.37", features = ["full"] }
 toml = { version = "^0.8", features = ["preserve_order"] }
-itertools = "0.13.0"

@@ -46,4 +46,7 @@
     "[emd]": {
         "files.trimTrailingWhitespace": false,
     },
+    "[toml]": {
+        "editor.defaultFormatter": "tombi-toml.tombi"
+    }
 }

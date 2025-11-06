@@ -219,7 +219,7 @@ impl DatabaseConfig {
     pub fn include_schema(&self, schema_name: &str) -> bool {
         self.schema_pattern
             .as_ref()
-            .map_or(true, |schema_pattern| match schema_pattern {
+            .is_none_or(|schema_pattern| match schema_pattern {
                 DatabaseSchemaPattern::IncludeSchemas(schemas) => {
                     schemas.contains(&schema_name.to_string())
                 }
