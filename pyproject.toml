@@ -2,23 +2,29 @@
 name = "snowman-py"
 version = "0.0.32"
 description = "Python model and query builder for Snowflake."
-authors = [{ name = "yassun7010", email = "yassun7010@outlook.com" }]
-dependencies = [
-    "typing-extensions>=4.12.0",
-    "snowflake-connector-python>=3.10.1",
-    "pydantic>=2.7.1",
-]
 readme = "README.md"
 requires-python = ">= 3.8"
+authors = [{ name = "yassun7010", email = "yassun7010@outlook.com" }]
 classifiers = [
-    "Programming Language :: Rust",
-    "Programming Language :: Python :: Implementation :: CPython",
-    "Programming Language :: Python :: Implementation :: PyPy",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Programming Language :: Rust",
+]
+dependencies = [
+  "pydantic>=2.7.1",
+  "snowflake-connector-python>=3.10.1",
+  "typing-extensions>=4.12.0",
 ]
 
 [build-system]
 requires = ["maturin>=1.5,<2.0"]
 build-backend = "maturin"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/snowman"]
 
 [tool.maturin]
 bindings = "bin"
@@ -26,35 +32,37 @@ manifest-path = "rust/snowman/Cargo.toml"
 module-name = "snowman"
 python-source = "python/src"
 
+[tool.mypy]
+disable_error_code = ["assert-type"]
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules"
+filterwarnings = ["ignore::DeprecationWarning:snowflake"]
+norecursedirs = ["site", "examples"]
+
 [tool.rye]
 managed = true
 dev-dependencies = [
-    "pytest>=8.2.1",
-    "pyright>=1.1.361",
-    "ruff>=0.4.3",
-    "turu[snowflake]>=0.11.1",
-    "pyarrow-stubs>=10.0.1.7",
-    "pandas-stubs>=2.2.1.240316",
-    "pytest-mock>=3.14.0",
-    "pip>=24.0",
-    "pandas>=2.2.2",
-    "pyarrow>=16.1.0",
-    "mkdocs>=1.6.0",
-    "mkdocs-material[imaging]>=9.5.26",
-    "mkdocs-plugin-inline-svg>=0.1.0",
-    "mkdocs-exclude>=1.0.2",
-    "mkdocstrings[python]>=0.25.1",
-    "griffe>=0.45.3",
-    "griffe-inherited-docstrings>=1.0.0",
-    "mkdocs-awesome-pages-plugin>=2.9.2",
-    "mypy>=1.11.2",
+  "pytest>=8.2.1",
+  "pyright>=1.1.361",
+  "ruff>=0.4.3",
+  "turu[snowflake]>=0.11.1",
+  "pyarrow-stubs>=10.0.1.7",
+  "pandas-stubs>=2.2.1.240316",
+  "pytest-mock>=3.14.0",
+  "pip>=24.0",
+  "pandas>=2.2.2",
+  "pyarrow>=16.1.0",
+  "mkdocs>=1.6.0",
+  "mkdocs-material[imaging]>=9.5.26",
+  "mkdocs-plugin-inline-svg>=0.1.0",
+  "mkdocs-exclude>=1.0.2",
+  "mkdocstrings[python]>=0.25.1",
+  "griffe>=0.45.3",
+  "griffe-inherited-docstrings>=1.0.0",
+  "mkdocs-awesome-pages-plugin>=2.9.2",
+  "mypy>=1.11.2",
 ]
-
-[tool.hatch.metadata]
-allow-direct-references = true
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/snowman"]
 
 [tool.rye.scripts]
 format = "rye format"
@@ -68,11 +76,3 @@ generate-sample-model = "cargo run --bin generate_sample_model docs/data"
 schema = "cargo run --bin jsonschema docs"
 docs-serve = { chain = ["generate-sample-model", "format", "mkdocs serve"] }
 docs-publish = "mkdocs gh-deploy --force"
-
-[tool.pytest.ini_options]
-filterwarnings = ["ignore::DeprecationWarning:snowflake"]
-addopts = "--doctest-modules"
-norecursedirs = ["site", "examples"]
-
-[tool.mypy]
-disable_error_code = ["assert-type"]
