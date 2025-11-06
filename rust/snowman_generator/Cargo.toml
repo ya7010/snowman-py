@@ -1,19 +1,18 @@
 [package]
 name = "snowman_generator"
 version.workspace = true
-edition.workspace = true
 authors.workspace = true
+edition.workspace = true
 license.workspace = true
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-snowman_connector.workspace = true
-
 convert_case.workspace = true
 itertools.workspace = true
+snowman_connector.workspace = true
 thiserror.workspace = true
 tokio.workspace = true
 
 [dev-dependencies]
-pretty_assertions = "1.4.0"
+pretty_assertions = { workspace = true }
