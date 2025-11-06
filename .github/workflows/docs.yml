@@ -9,23 +9,37 @@ on:
 permissions:
   contents: write
 
-env:
-  POETRY_VIRTUALENVS_CREATE: false
-
 jobs:
   deploy-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           key: mkdocs-material-${{ env.cache_id }}
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - uses: eifinger/setup-rye@v2
-      - run: rye --version
-      - run: rye sync
-      - run: rye run docs-publish
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: Install dependencies
+        run: uv sync
+      - name: Generate sample model
+        run: cargo run --bin generate_sample_model docs/data
+      - name: Format code
+        run: uv run ruff format .
+      - name: Publish docs
+        run: uv run mkdocs gh-deploy --force

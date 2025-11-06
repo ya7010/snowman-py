@@ -19,10 +19,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: eifinger/setup-rye@v2
-        # with:
-        #   enable-cache: true
-      - run: rye format --check
-      - run: rye lint
-      - run: rye test
-      - run: rye run typecheck
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
+      - name: Install dependencies
+        run: uv sync
+      - name: Check formatting
+        run: uv run ruff format --check .
+      - name: Run linter
+        run: uv run ruff check .
+      - name: Run tests
+        run: uv run pytest
+      - name: Type check with pyright
+        run: uv run pyright python/src/** python/tests/** docs/data/** examples/**
+      - name: Type check with mypy
+        run: uv run mypy python/ docs/ examples/
