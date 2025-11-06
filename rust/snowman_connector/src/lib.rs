@@ -14,7 +14,7 @@ pub struct Connection {
 }
 
 impl Connection {
-    pub fn try_new(
+    pub fn try_new_by_password(
         username: String,
         password: String,
         account: String,
@@ -23,11 +23,16 @@ impl Connection {
         database: String,
         schema: Option<String>,
     ) -> Result<Self, snowflake_connector_rs::Error> {
+        log::debug!("Using password authentication");
         log::debug!("username: {username}");
         log::debug!(
             "password: {}**********{}",
-            &password[..2],
-            &password[password.len() - 2..]
+            &password[..2.min(password.len())],
+            if password.len() >= 2 {
+                &password[password.len() - 2..]
+            } else {
+                ""
+            }
         );
         log::debug!("account: {account}");
         log::debug!("warehouse: {warehouse}");
@@ -38,6 +43,43 @@ impl Connection {
         let client = SnowflakeClient::new(
             &username,
             SnowflakeAuthMethod::Password(password),
+            SnowflakeClientConfig {
+                account,
+                warehouse: Some(warehouse),
+                role: Some(role),
+                database: Some(database),
+                schema: schema.map(|s| s.to_string()),
+                ..Default::default()
+            },
+        )?;
+        Ok(Connection { inner: client })
+    }
+
+    pub fn try_new_by_keypair(
+        username: String,
+        encrypted_pem: String,
+        passphrase: Vec<u8>,
+        account: String,
+        warehouse: String,
+        role: String,
+        database: String,
+        schema: Option<String>,
+    ) -> Result<Self, snowflake_connector_rs::Error> {
+        log::debug!("Using key pair authentication");
+        log::debug!("username: {username}");
+        log::debug!("passphrase provided: {}", !passphrase.is_empty());
+        log::debug!("account: {account}");
+        log::debug!("warehouse: {warehouse}");
+        log::debug!("role: {role}");
+        log::debug!("database: {database}");
+        log::debug!("schema: {schema:?}");
+
+        let client = SnowflakeClient::new(
+            &username,
+            SnowflakeAuthMethod::KeyPair {
+                encrypted_pem,
+                password: passphrase,
+            },
             SnowflakeClientConfig {
                 account,
                 warehouse: Some(warehouse),

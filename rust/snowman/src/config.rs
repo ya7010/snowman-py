@@ -27,17 +27,44 @@ pub fn get_snowflake_connection(
 ) -> Result<snowman_connector::Connection, anyhow::Error> {
     let Config { connection, .. } = config;
 
-    snowman_connector::Connection::try_new(
-        connection.user.try_get_value()?,
-        connection.password.try_get_value()?,
-        connection.account.try_get_value()?,
-        connection.warehouse.try_get_value()?,
-        connection.role.try_get_value()?,
-        connection.database.try_get_value()?,
-        connection
-            .schema
-            .as_ref()
-            .and_then(|v| v.try_get_value().ok()),
-    )
-    .map_err(Into::into)
+    let username = connection.user.try_get_value()?;
+    let account = connection.account.try_get_value()?;
+    let warehouse = connection.warehouse.try_get_value()?;
+    let role = connection.role.try_get_value()?;
+    let database = connection.database.try_get_value()?;
+    let schema = connection
+        .schema
+        .as_ref()
+        .and_then(|v| v.try_get_value().ok());
+
+    if let Ok(private_key_path) = connection.private_key_path.try_get_value() {
+        let encrypted_pem = std::fs::read_to_string(&private_key_path)
+            .map_err(|e| anyhow::anyhow!("Failed to read private key file: {}", e))?;
+
+        let passphrase = connection
+            .private_key_passphrase
+            .try_get_value()
+            .unwrap_or_default()
+            .into_bytes();
+
+        snowman_connector::Connection::try_new_by_keypair(
+            username,
+            encrypted_pem,
+            passphrase,
+            account,
+            warehouse,
+            role,
+            database,
+            schema,
+        )
+        .map_err(Into::into)
+    } else {
+        // パスワード認証
+        let password = connection.password.try_get_value()?;
+
+        snowman_connector::Connection::try_new_by_password(
+            username, password, account, warehouse, role, database, schema,
+        )
+        .map_err(Into::into)
+    }
 }
