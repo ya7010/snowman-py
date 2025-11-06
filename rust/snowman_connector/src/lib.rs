@@ -55,6 +55,7 @@ impl Connection {
         Ok(Connection { inner: client })
     }
 
+    #[allow(clippy::too_many_arguments)]
     pub fn try_new_by_keypair(
         username: String,
         encrypted_pem: String,
