@@ -3,12 +3,15 @@ name = "snowman-sample"
 version = "0.0.32"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">= 3.8"
+requires-python = ">= 3.9"
 authors = [{ name = "yassun7010", email = "yassun7010@outlook.com" }]
 dependencies = [
   "pydantic>=2.7.1",
   "snowman @ file:///${PROJECT_ROOT}/examples/snowman_sample/../..",
 ]
+
+[dependency-groups]
+dev = []
 
 [build-system]
 requires = ["hatchling"]
@@ -19,7 +22,3 @@ allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/snowman_sample"]
-
-[tool.rye]
-managed = true
-dev-dependencies = []

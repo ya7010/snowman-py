@@ -3,7 +3,7 @@ name = "snowman-py"
 version = "0.0.32"
 description = "Python model and query builder for Snowflake."
 readme = "README.md"
-requires-python = ">= 3.8"
+requires-python = ">= 3.9"
 authors = [{ name = "yassun7010", email = "yassun7010@outlook.com" }]
 classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
@@ -14,6 +14,29 @@ dependencies = [
   "pydantic>=2.7.1",
   "snowflake-connector-python>=3.10.1",
   "typing-extensions>=4.12.0",
+]
+
+[dependency-groups]
+dev = [
+  "griffe>=0.45.3",
+  "griffe-inherited-docstrings>=1.0.0",
+  "mkdocs>=1.6.0",
+  "mkdocs-awesome-pages-plugin>=2.9.2",
+  "mkdocs-exclude>=1.0.2",
+  "mkdocs-material[imaging]>=9.5.26",
+  "mkdocs-plugin-inline-svg>=0.1.0",
+  "mkdocstrings[python]>=0.25.1",
+  "mypy>=1.11.2",
+  "pandas>=2.2.2",
+  "pandas-stubs>=2.2.1.240316",
+  "pip>=24.0",
+  "pyarrow>=16.1.0",
+  "pyarrow-stubs>=10.0.1.7",
+  "pyright>=1.1.361",
+  "pytest>=8.2.1",
+  "pytest-mock>=3.14.0",
+  "ruff>=0.4.3",
+  "turu[snowflake]>=0.11.1",
 ]
 
 [build-system]
@@ -39,40 +62,3 @@ disable_error_code = ["assert-type"]
 addopts = "--doctest-modules"
 filterwarnings = ["ignore::DeprecationWarning:snowflake"]
 norecursedirs = ["site", "examples"]
-
-[tool.rye]
-managed = true
-dev-dependencies = [
-  "pytest>=8.2.1",
-  "pyright>=1.1.361",
-  "ruff>=0.4.3",
-  "turu[snowflake]>=0.11.1",
-  "pyarrow-stubs>=10.0.1.7",
-  "pandas-stubs>=2.2.1.240316",
-  "pytest-mock>=3.14.0",
-  "pip>=24.0",
-  "pandas>=2.2.2",
-  "pyarrow>=16.1.0",
-  "mkdocs>=1.6.0",
-  "mkdocs-material[imaging]>=9.5.26",
-  "mkdocs-plugin-inline-svg>=0.1.0",
-  "mkdocs-exclude>=1.0.2",
-  "mkdocstrings[python]>=0.25.1",
-  "griffe>=0.45.3",
-  "griffe-inherited-docstrings>=1.0.0",
-  "mkdocs-awesome-pages-plugin>=2.9.2",
-  "mypy>=1.11.2",
-]
-
-[tool.rye.scripts]
-format = "rye format"
-lint = "rye lint --fix"
-typecheck-pyright = "pyright python/src/** python/tests/** docs/data/** examples/**"
-typecheck-mypy = "mypy python/ docs/ examples/"
-typecheck = { chain = ["typecheck-pyright", "typecheck-mypy"] }
-test = "rye test"
-ci = { chain = ["format", "lint", "typecheck", "test"] }
-generate-sample-model = "cargo run --bin generate_sample_model docs/data"
-schema = "cargo run --bin jsonschema docs"
-docs-serve = { chain = ["generate-sample-model", "format", "mkdocs serve"] }
-docs-publish = "mkdocs gh-deploy --force"
