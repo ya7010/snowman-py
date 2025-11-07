@@ -1,0 +1,337 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Config",
+  "type": "object",
+  "properties": {
+    "connection": {
+      "title": "The Snowflake connection configuration.",
+      "default": {
+        "account": {
+          "env": "SNOWFLAKE_ACCOUNT"
+        },
+        "user": {
+          "env": "SNOWFLAKE_USER"
+        },
+        "password": {
+          "env": "SNOWFLAKE_PASSWORD"
+        },
+        "role": {
+          "env": "SNOWFLAKE_ROLE"
+        },
+        "warehouse": {
+          "env": "SNOWFLAKE_WAREHOUSE"
+        },
+        "database": {
+          "env": "SNOWFLAKE_DATABASE"
+        },
+        "schema": null
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ConnectionConfig"
+        }
+      ]
+    },
+    "model": {
+      "title": "The Python model configuration.",
+      "description": "It is mainly used for the Snowman model generate command.",
+      "default": {
+        "table_types": [],
+        "output_dir": "",
+        "database": {}
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/ModelConfig"
+        }
+      ]
+    },
+    "pydantic": {
+      "title": "The Pydantic options.",
+      "default": {
+        "model_name_prefix": null,
+        "model_name_suffix": null
+      },
+      "allOf": [
+        {
+          "$ref": "#/definitions/PydanticConfig"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "ConnectionConfig": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "title": "The Snowflake account name.",
+          "default": {
+            "env": "SNOWFLAKE_ACCOUNT"
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/StringOrEnv"
+            }
+          ]
+        },
+        "database": {
+          "title": "The Snowflake database.",
+          "default": {
+            "env": "SNOWFLAKE_DATABASE"
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/StringOrEnv"
+            }
+          ]
+        },
+        "password": {
+          "title": "The Snowflake password.",
+          "description": "Currently only password authentication is supported.",
+          "default": {
+            "env": "SNOWFLAKE_PASSWORD"
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/StringOrEnv"
+            }
+          ]
+        },
+        "role": {
+          "title": "The Snowflake role.",
+          "default": {
+            "env": "SNOWFLAKE_ROLE"
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/StringOrEnv"
+            }
+          ]
+        },
+        "schema": {
+          "title": "The Snowflake schema.",
+          "description": "This is optional. Schema is not required for this tool, but it can be set for consistency.",
+          "default": null,
+          "anyOf": [
+            {
+              "$ref": "#/definitions/StringOrEnv"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "user": {
+          "title": "The Snowflake user name.",
+          "default": {
+            "env": "SNOWFLAKE_USER"
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/StringOrEnv"
+            }
+          ]
+        },
+        "warehouse": {
+          "title": "The Snowflake warehouse.",
+          "default": {
+            "env": "SNOWFLAKE_WAREHOUSE"
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/StringOrEnv"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "DatabaseConfig": {
+      "type": "object",
+      "oneOf": [
+        {
+          "title": "Specifies the schema name to include in the Python Model.",
+          "type": "object",
+          "required": [
+            "include_schemas"
+          ],
+          "properties": {
+            "include_schemas": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "title": "Specifies the schema name to exclude from the Python Model.",
+          "type": "object",
+          "required": [
+            "exclude_schemas"
+          ],
+          "properties": {
+            "exclude_schemas": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ],
+      "properties": {
+        "schema": {
+          "title": "The database configuration.",
+          "default": {},
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/SchemaConfig"
+          }
+        },
+        "table_types": {
+          "title": "The table types of database to include in the Python Model.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/TableType"
+          }
+        }
+      }
+    },
+    "Env": {
+      "type": "object",
+      "required": [
+        "env"
+      ],
+      "properties": {
+        "env": {
+          "title": "The environment variable name.",
+          "type": "string"
+        }
+      }
+    },
+    "ModelConfig": {
+      "type": "object",
+      "oneOf": [
+        {
+          "title": "Specifies the database name to include in the Python Model.",
+          "type": "object",
+          "required": [
+            "include_databases"
+          ],
+          "properties": {
+            "include_databases": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "title": "Specifies the database name to exclude from the Python Model.",
+          "type": "object",
+          "required": [
+            "exclude_databases"
+          ],
+          "properties": {
+            "exclude_databases": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ],
+      "properties": {
+        "database": {
+          "title": "The database configuration.",
+          "default": {},
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/DatabaseConfig"
+          }
+        },
+        "output_dir": {
+          "title": "The output directory of the generated model.",
+          "default": ".",
+          "type": "string"
+        },
+        "table_types": {
+          "title": "The table types to include in the Python Model.",
+          "default": [
+            "BASE TABLE",
+            "VIEW"
+          ],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TableType"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "PydanticConfig": {
+      "type": "object",
+      "properties": {
+        "model_name_prefix": {
+          "title": "The prefix of the model name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "model_name_suffix": {
+          "title": "The suffix of the model name.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "SchemaConfig": {
+      "type": "object",
+      "properties": {
+        "table_types": {
+          "title": "The table types of schema to include in the Python Model.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/TableType"
+          }
+        }
+      }
+    },
+    "StringOrEnv": {
+      "title": "Represents a string or an environment variable.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/Env"
+        }
+      ]
+    },
+    "TableType": {
+      "type": "string",
+      "enum": [
+        "BASE TABLE",
+        "VIEW"
+      ]
+    }
+  }
+}

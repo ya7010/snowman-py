@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://ya7010.github.io/snowman-py/</loc>
+         <lastmod>2025-11-07</lastmod>
+    </url>
+    <url>
+         <loc>https://ya7010.github.io/snowman-py/guide/installation/</loc>
+         <lastmod>2025-11-07</lastmod>
+    </url>
+    <url>
+         <loc>https://ya7010.github.io/snowman-py/guide/cli_tool/</loc>
+         <lastmod>2025-11-07</lastmod>
+    </url>
+    <url>
+         <loc>https://ya7010.github.io/snowman-py/guide/cli_tool/configuration/</loc>
+         <lastmod>2025-11-07</lastmod>
+    </url>
+    <url>
+         <loc>https://ya7010.github.io/snowman-py/guide/query_builder/</loc>
+         <lastmod>2025-11-07</lastmod>
+    </url>
+    <url>
+         <loc>https://ya7010.github.io/snowman-py/guide/query_builder/data_type/</loc>
+         <lastmod>2025-11-07</lastmod>
+    </url>
+</urlset>
