@@ -44,9 +44,9 @@ theme:
       bug: octicons/bug-16
       example: octicons/beaker-16
       quote: octicons/quote-16
-repo_name: yassun7010/snowman-py
-repo_url: https://github.com/yassun7010/snowman-py
-site_url: https://yassun7010.github.io/snowman-py/
+repo_name: ya7010/snowman-py
+repo_url: https://github.com/ya7010/snowman-py
+site_url: https://ya7010.github.io/snowman-py/
 edit_uri: edit/main/docs/
 plugins:
   - search

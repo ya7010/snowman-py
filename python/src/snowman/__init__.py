@@ -1,5 +1,5 @@
 """
-# ⛄ [Snowman](https://github.com/yassun7010/snowman-py) ⛄
+# ⛄ [Snowman](https://github.com/ya7010/snowman-py) ⛄
 
 Python model and query builder for [Snowflake](https://www.snowflake.com/).
 """

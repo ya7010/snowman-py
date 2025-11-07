@@ -4,7 +4,7 @@ version = "0.0.34"
 description = "Python model and query builder for Snowflake."
 readme = "README.md"
 requires-python = ">= 3.9"
-authors = [{ name = "yassun7010", email = "yassun7010@outlook.com" }]
+authors = [{ name = "ya7010", email = "ya7010@outlook.com" }]
 classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy",
