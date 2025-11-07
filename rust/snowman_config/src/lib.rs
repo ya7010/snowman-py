@@ -457,8 +457,8 @@ impl AsRef<std::path::Path> for ConfigSource {
     }
 }
 
-const DEFAULT_CONFIG_STRING: &str = r#"# [Snowman](https://github.com/yassun7010/snowman-py)
-#:schema https://raw.githubusercontent.com/yassun7010/snowman-py/main/docs/snowman.schema.json
+const DEFAULT_CONFIG_STRING: &str = r#"# [Snowman](https://github.com/ya7010/snowman-py)
+#:schema https://raw.githubusercontent.com/ya7010/snowman-py/main/docs/snowman.schema.json
 
 [connection]
 account = { env = "SNOWFLAKE_ACCOUNT" }
