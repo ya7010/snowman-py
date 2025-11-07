@@ -37,10 +37,13 @@ pub fn get_snowflake_connection(
         .as_ref()
         .and_then(|v| v.try_get_value().ok());
 
-    if let Ok(private_key) = connection.private_key.try_get_value() {
+    if let Ok(private_key_path) = connection.private_key_path.try_get_value() {
+        let encrypted_pem = std::fs::read_to_string(&private_key_path)
+            .map_err(|e| anyhow::anyhow!("Failed to read private key file: {}", e))?;
+
         snowman_connector::Connection::try_new_by_keypair(
             username,
-            private_key,
+            encrypted_pem,
             get_passphrase(config),
             account,
             warehouse,
@@ -48,13 +51,10 @@ pub fn get_snowflake_connection(
             database,
             schema,
         )
-    } else if let Ok(private_key_path) = connection.private_key_path.try_get_value() {
-        let encrypted_pem = std::fs::read_to_string(&private_key_path)
-            .map_err(|e| anyhow::anyhow!("Failed to read private key file: {}", e))?;
-
+    } else if let Ok(private_key) = connection.private_key.try_get_value() {
         snowman_connector::Connection::try_new_by_keypair(
             username,
-            encrypted_pem,
+            private_key,
             get_passphrase(config),
             account,
             warehouse,
